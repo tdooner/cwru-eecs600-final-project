@@ -6,6 +6,8 @@
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{paralist}
+\usepackage{cite}
+\usepackage{hyperref} %for the URLs
 \titleformat{\subsubsection}[runin]{}{}{}{}[]
 \renewcommand{\labelenumi}{\alph{enumi}.}
 
@@ -15,6 +17,8 @@
 \maketitle
 
 \section{Background}
+As defined by the NIH, Epilepsy is a brain disorder manifested in repeated seizures
+over time.~\cite{nih-epilepsy}
 
 \subsection{Related Work}
 
@@ -25,5 +29,8 @@
 \section{Timeline}
 
 \section{References}
+\bibliography{citations}{}
+\bibliographystyle{plain}
+
 
 \end{document}
