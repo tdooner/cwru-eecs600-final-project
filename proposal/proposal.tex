@@ -6,6 +6,7 @@
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{paralist}
+\usepackage{times}
 \usepackage{cite}
 \usepackage{hyperref} %for the URLs
 \titleformat{\subsubsection}[runin]{}{}{}{}[]
@@ -18,11 +19,42 @@
 
 \section{Background}
 As defined by the NIH, Epilepsy is a brain disorder manifested in repeated seizures
-over time.~\cite{nih-epilepsy}
+over time.~\cite{nih-epilepsy} When patients have particularly bad seizures, they
+are admitted to a hospital for monitoring. Upon admission to the hospital's Epilepsy
+Monitoring Unit, various patient data is collected -- data such as Name, Sex, DOB,
+and Age. The patient is also asked for some information regarding their recent seizure
+episode such as zone, type, and origin.
+
+This information, as well as the information collected from monitoring the patient
+with EEGs during the hospital stay, is summarized in a discharge summary report.
+These discharge reports are in a non-standard form and the data concerning background
+information is in a natural-language form, making the data difficult to quickly
+search.
+
+We seek to codify and automatically determine the semantic relationships inherent
+in patient discharge summaries to facilitate easy recall.
 
 \subsection{Related Work}
+The broader field of applying Natural Language Processing (NLP) to Electronic Health Records
+is well-discussed in academic journals. Indeed, a Clinical Data Architecture has been
+proposed~\cite{CDA} which promises to structure electronic health records. Unfortunately,
+decades of health records exist digitally but in an unstructured format, so it is prudent
+to consider using NLP technology to detect medical errors, correlate data, and draw
+conclusions on vast quantities of data~\cite{friedman}.
+
+Prior work exists in other NLP-related fields, such as evaluating how semantically similar 
+two suggested medical terms are~\cite{Pedersen2007288} and how to analyze patient
+discharge summaries to extract keywords and key relationships from the content of the
+reports~\cite{soderland}. Perhaps the most relevant prior work is Uzuner et al., in 2006,
+showed with some success that smoking status can be inferred from medical discharge 
+records~\cite{Uzuner200814}.
+
+While our goals are not as black-and-white as Uzuner et al., we hope to take advantage of
+research contained in these referenced articles to produce a useful tool which will
+help medical professionals draw conclusions by querying more-structured data.
 
 \subsection{Significance}
+
 
 \section{Approach}
 The ultimate goal of the project is to produce a search-based web application.
