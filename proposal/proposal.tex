@@ -25,6 +25,50 @@ over time.~\cite{nih-epilepsy}
 \subsection{Significance}
 
 \section{Approach}
+The ultimate goal of the project is to produce a search-based web application.
+Users will pose queries against an index of Patient Discharge Summaries, and the
+application will output a subset of summaries deemed relevant based on a semantic
+analysis of the data.
+
+\subsection{Raw Data and OCR}
+When an epileptic patient is discharged from care, a Patient Discharge Summary is
+filled out, detailing the patient's history, symptoms, the tests administered, as
+well as diagnoses and recommended treatement. The majority of the documents are
+presented in natural English language, while certain standard portions are in a
+more structured format, with well-defined attributes and values. Finally, some
+reports include a graphical representation of EEG data, which will not be indexed.
+The body of data is provided as PDF scans, without text data. This necessitates the use
+of Optical Character Recognition (OCR) to decipher the text from the PDF images.
+
+\subsection{Parsing and Entity Recognition}
+Once the text data is acquired, we will use the Natural Language ToolKit (NLTK)
+for the Python language to analyze the text syntactically to provide a structured
+representation of the data. Once parsed, the tokens will be analyzed using specific
+medical knowledge to determine the relevant entities found in the documents, and the
+attribute values associated with them. Furthermore, the form portions of the documents
+will be analyzed separately, since they are too structured to qualify as "natural
+language."
+
+\subsection{Indexing}
+Each Discharge Summary will be associated with attributes and values based on the
+entities recognized within the text. There will be a standard set of attributes
+deemed important to all epilepsy-related Discharge Summaries. The standard set will
+be determined partially from the medical knowledge base, and partially through an
+analysis of the Discharge Summaries themselves for commonly reported information.
+Every document entry will include these ancillary attributes, along with other
+relevant information the document will contain. The documents will then be indexed
+based on these attribute-value pairs. This indexing will take place in the background
+dynamically as more Discharge Summaries are submitted to the knowledge base, and
+the index along with the set of standard attributes will be updated dynamically.
+
+\subsection{Search Application}
+The website will present the user with search criteria by which he/she may find
+the desired discharge summaries. These search criteria will be informed by the 
+previously mentioned standard set of attributes. Numeric attributes such as dates
+may be expressed as ranges. There will also be a search criterion for miscellaneous
+information, which will utilize a thesaurus to find indexed attributes that do not
+fall under the set of ancillary information. The user will then submit the search
+query and retrieve a list of Discharge Summaries.
 
 \section{Timeline}
 
