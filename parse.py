@@ -44,7 +44,15 @@ tokens = [
     # Tokens for finding durations
     # PER = "Time Period"
     ('^([Ss]econd(s)?|[Mm]inute(s)?|[Hh]our(s)?)$', 'PER'),
-    ('^([Dd]ay(s)?|[Ww]eek(s)?)$', 'PER')
+    ('^([Dd]ay(s)?|[Ww]eek(s)?)$', 'PER'),
+    # Tokens for finding semiology
+    # SEMLB = "Semiology Label"
+    # SEMEV = "Semiology Event"
+    # BODP = "Body Part"
+    ('^([Ss]emiology)$','SEMLB'),
+    ('^([Rr]ight|[Ll]eft)$','JJ'),
+    ('^([Ee]pisode(s)?)$','SEMEV'),
+    ('^([Ff]ace|[Aa]rm|[Ll]eg|[Mm]otor)$','BODP')
 ]
 
 parse_rules = r"""
@@ -68,6 +76,12 @@ parse_rules = r"""
     FREGIMEN:     {<TO>?<VBB|VB><TO|IN>?<REGIMEN>}              # "to begin [regimen]"
     REGIMENLIST:  {(<REGIMEN|DRUG><,>)+<REGIMEN|DRUG>}
     PRESCRIPTIONLIST: {(<PRESCRIPTION><,>)+<PRESCRIPTION>}
+
+    # Rules for finding semiology
+    BODPP:      {<JJ>?<BODP>}
+    BODPLIST:   {((<BODPP>(<,>|<CC>)?)+<BODPP>)}
+    SEMITEM:    {(<BODPLIST>|<JJ>+|<NNP>)<SEMEV>}
+    SEMIOLOGY:  {<SEMLB>(<:>((<NUM><:>)?<SEMITEM>)+)}
 """
 def frequency_text(tuple_list):
     """
@@ -107,6 +121,10 @@ def anything_useful(section_name, item):
                         print "Medication: " + flatten_regimen(s)
             elif item.node == "REGIMEN":
                 print "Medication: " + flatten_regimen(item)
+            elif item.node == "SEMIOLOGY":
+                for s in item.subtrees():
+                    if s.node == "SEMITEM":
+                        print "Epileptic Semiology: " + flatten_regimen(s)
             #f = frequency_text(item.pos())
             #if f != None:
             #    print "Seizure History: %s" % (" ".join(f))
