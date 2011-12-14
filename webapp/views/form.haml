@@ -1,0 +1,73 @@
+%html
+  %head
+    %link{:href=>'http://fonts.googleapis.com/css?family=Cabin+Condensed:600',:rel=>'stylesheet',:type=>'text/css'}
+    %link{:href=>'http://fonts.googleapis.com/css?family=Signika+Negative',:rel=>'stylesheet',:type=>'text/css'}
+    %script{:type=>"text/javascript",:src=>"http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"}
+    %script{:type=>"text/javascript",:src=>"http://cdnjs.cloudflare.com/ajax/libs/noisy/1.1/jquery.noisy.min.js"}
+    :css
+      body {
+        font-family: 'Signika Negative', sans-serif;
+        background-color:#E6E6E6;
+        color:#222;
+        text-shadow:1px 1px #EFEFEF;
+      }
+      div.container {
+        width:600px;
+        margin:auto;
+      }
+      h1 {
+        font-family: 'Cabin Condensed', sans-serif;
+        text-align:center;
+      }
+      .hidden {
+        display:none;
+      }
+    :javascript
+      $(document).ready(function() {
+          $('body div.out').each(function(i) {
+            parts = this.innerHTML.split(":");
+            newOne = document.createElement("div")
+            b = document.createElement("b");
+            text = document.createElement("span");
+            b.innerHTML = parts[0] + ": ";
+            text.innerHTML = parts[1];
+            newOne.appendChild(b);
+            newOne.appendChild(text);
+            $('div.outcontainer').append(newOne);
+          });
+      });
+      $(document).ready(function() {
+          $('body').noisy({
+              'intensity': 0.5,
+              'size': 200,
+              'opacity': 0.08
+          });
+      });
+      var showLoad = function() {
+        $('div.outcontainer').css('display', 'block');
+      }
+  %body
+    %div.container
+      %h1 Epilepsy Discharge Summary Analysis
+      Upload a PDF of information from the discharge summary of a patient, and this semantic web application will attempt to extract data from it, including
+      %b Seizure Frequency
+      ,
+      %b Seizure Comorbidities
+      ,
+      %b Medications
+      the patient is on, and
+      %b Seizure Semiology.
+      %h1 Upload A PDF
+      %form{:method=>"POST",:action=>"/",:enctype=>"multipart/form-data",:style=>"text-align:center"}
+        %input{:name=>"pdf",:type=>"file"}
+        %input{:type=>"submit",:onclick=>"javascript:showLoad();",:value=>"Parse!"}
+      - if @output
+        %h1 Parsed Results
+        %div.outcontainer
+          - @output.each do |o|
+            %div.out.hidden=o
+      - else
+        %div.outcontainer.hidden
+          %h1 Parsed Results
+          Loading...
+          %img{:src=>"38-1.gif"}
