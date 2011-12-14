@@ -19,11 +19,12 @@
 
 \section{Background}
 As defined by the NIH, Epilepsy is a brain disorder manifested in repeated seizures
-over time.~\cite{nih-epilepsy} When patients have particularly bad seizures, they
-are admitted to a hospital for monitoring. Upon admission to the hospital's Epilepsy
-Monitoring Unit, various patient data is collected -- data such as Name, Sex, DOB,
-and Age. The patient is also asked for some information regarding their recent seizure
-episode such as zone, type, and origin.
+over time.~\cite{nih-epilepsy} When those affected by Epilepsy have particularly bad 
+seizures, they
+may seek medical attention at a hospital. Upon admission to the hospital's Epilepsy
+Monitoring Unit, various patient data is collected (such as Name, Sex, DOB,
+and Age.) The patient is also asked for some information regarding their recent seizure
+episode such as affected zones of body, seizure type, and seizure origin.
 
 This information, as well as the information collected from monitoring the patient
 with EEGs during the hospital stay, is summarized in a discharge summary report.
@@ -31,16 +32,17 @@ These discharge reports are in a non-standard form and the data concerning backg
 information is in a natural-language form, making the data difficult to quickly
 search.
 
-We seek to codify and automatically determine the semantic relationships inherent
-in patient discharge summaries to facilitate easy recall.
+We seek to extract semantic data and basic relationships from these discharge summaries
+for the purpose of allowing users (medical professionals) to draw conclusions.
 
 \subsection{Related Work}
 The broader field of applying Natural Language Processing (NLP) to Electronic Health Records
-is well-discussed in academic journals. Indeed, a Clinical Data Architecture has been
-proposed~\cite{CDA} which promises to structure electronic health records. Unfortunately,
-decades of health records exist digitally but in an unstructured format, so it is prudent
-to consider using NLP technology to detect medical errors, correlate data, and draw
-conclusions on vast quantities of data~\cite{friedman}.
+is well-discussed in academic journals. For example, a Clinical Data Architecture has been
+proposed~\cite{CDA} which promises to structure electronic health records. Unfortunately, however,
+decades of health records exist digitally in an unstructured format. Lacking structure, it is
+difficult to write applications which can analyze any broad collection of records. Researchers
+have found it prudent to consider using NLP technology to detect medical errors, correlate data, 
+and draw conclusions on vast quantities of data~\cite{friedman}.
 
 Prior work exists in other NLP-related fields, such as evaluating how semantically similar 
 two suggested medical terms are~\cite{Pedersen2007288} and how to analyze patient
@@ -49,8 +51,8 @@ reports~\cite{soderland}. Perhaps the most relevant prior work is Uzuner et al.,
 showed with some success that smoking status can be inferred from medical discharge 
 records~\cite{Uzuner200814}.
 
-While our goals are not as black-and-white as Uzuner et al., we hope to take advantage of
-research contained in these referenced articles to produce a useful tool which will
+While our goals are not to make as black-and-white a decision as Uzuner et al., we hope to take 
+advantage of research contained in these referenced articles to produce a useful tool which will
 help medical professionals draw conclusions by querying more-structured data.
 
 \subsection{Significance}
@@ -71,6 +73,7 @@ We hope to achieve the following goals with our system:
 	\item Allow users to search easily on basic criteria (date of birth, gender,
 substance use) as well as more semantically deep criteria (age at first seizure,
 seizure type, type of seizure).
+    \item Store records in a semantically useful format.
 	\item Employ a medical thesaurus so users can search for similar criteria easily.
 \end{itemize}
 
