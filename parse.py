@@ -51,7 +51,7 @@ tokens = [
     # BODP = "Body Part"
     ('^([Ss]emiology)$','SEMLB'),
     ('^([Rr]ight|[Ll]eft)$','JJ'),
-    ('^([Ee]pisode(s)?)$','SEMEV'),
+    ('^([Ee]pisode(s)?)|([Ss]pasm(s)?)$','SEMEV'),
     ('^([Ff]ace|[Aa]rm|[Ll]eg|[Mm]otor)$','BODP'),
     # Tokens for finding comorbidity
     # COMLB = "Comorbidity Label"
@@ -88,7 +88,7 @@ parse_rules = r"""
     BODPP:      {<JJ>?<BODP>}
     BODPLIST:   {((<BODPP>(<,>|<CC>)?)+<BODPP>)}
     SEMITEM:    {(<BODPLIST>|<JJ>+|<NNP>)<SEMEV>}
-    SEMIOLOGY:  {<SEMLB>(<:>((<NUM><:>)?<SEMITEM>)+)}
+    SEMIOLOGY:  {<NN>?<SEMLB>(<:>((<NUM><:>)?<SEMITEM>)+)}
 
     # Rules for finding comorbidity
     FULLHEADER: {<NNP><HEADER>}
