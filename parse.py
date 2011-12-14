@@ -51,13 +51,15 @@ tokens = [
     # BODP = "Body Part"
     ('^([Ss]emiology)$','SEMLB'),
     ('^([Rr]ight|[Ll]eft)$','JJ'),
-    ('^([Ee]pisode(s)?)$','SEMEV'),
+    ('^([Ee]pisode(s)?)|([Ss]pasm(s)?)$','SEMEV'),
     ('^([Ff]ace|[Aa]rm|[Ll]eg|[Mm]otor)$','BODP'),
     # Tokens for finding comorbidity
     # COMLB = "Comorbidity Label"
     # HEADER: necessary to end previous section
     ('^(([Cc]omorbidit(y|ies))|[Cc]ondition(s)?)$','COMLB'),
-    ('^Types/Evolution/Frequency/Age$','HEADER')
+    ('^Types/Evolution/Frequency/Age$','HEADER'),
+    # EPZLB = "Epileptogenic Zone Label"
+    ('^Epileptogenic$','EPZLB')
 ]
 
 parse_rules = r"""
@@ -86,11 +88,14 @@ parse_rules = r"""
     BODPP:      {<JJ>?<BODP>}
     BODPLIST:   {((<BODPP>(<,>|<CC>)?)+<BODPP>)}
     SEMITEM:    {(<BODPLIST>|<JJ>+|<NNP>)<SEMEV>}
-    SEMIOLOGY:  {<SEMLB>(<:>((<NUM><:>)?<SEMITEM>)+)}
+    SEMIOLOGY:  {<NN>?<SEMLB>(<:>((<NUM><:>)?<SEMITEM>)+)}
 
     # Rules for finding comorbidity
     FULLHEADER: {<NNP><HEADER>}
     COMORBIDITY:    (<NNP>+|<JJ>)<COMLB><:>{(<..?.?.?>+<,>?)+}
+
+    # Rules for finding Epileptogenic Zone
+    EPILEPTOGENIC: <EPZLB><NNP><:>{<.*>+?}(<.*><:>|<SEMIOLOGY>|(<NNP>+|<JJ>)<COMLB><:>)
 """
 def frequency_text(tuple_list):
     """
@@ -138,6 +143,8 @@ def anything_useful(section_name, item):
                 coms = flatten_regimen(item).split(",")
                 for s in coms:
                     print "Comorbidity: " + s.strip()
+            elif item.node == "EPILEPTOGENIC":
+                print "Epileptogenic Zone: " + flatten_regimen(item)
             #f = frequency_text(item.pos())
             #if f != None:
             #    print "Seizure History: %s" % (" ".join(f))
