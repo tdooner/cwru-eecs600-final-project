@@ -135,7 +135,9 @@ def anything_useful(section_name, item):
                     if s.node == "SEMITEM":
                         print "Epileptic Semiology: " + flatten_regimen(s)
             elif item.node == "COMORBIDITY":
-                print "Comorbidities: " + flatten_regimen(item)
+                coms = flatten_regimen(item).split(",")
+                for s in coms:
+                    print "Comorbidity: " + s.strip()
             #f = frequency_text(item.pos())
             #if f != None:
             #    print "Seizure History: %s" % (" ".join(f))
