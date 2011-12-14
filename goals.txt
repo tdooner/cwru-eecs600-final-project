@@ -1,0 +1,46 @@
+Overarching Goals:
+-- Design a system that would work with no manual tweaking of the data.
+-- Design the system in a flexible way so that different phrasings of words can be added
+    as they are discovered. (due to our limited dataset.)
+
+Goals of things to recognize:
+-- Epileptiogenic zone
+-- Frequency of seizure             (done!)
+-- Duration of seizure              (done!)
+-- Antiepileptic medications        (done!)
+-- Family history or no family history
+
+Methodology:
+1) Extract text from the PDF. (This loses the semantic data, and gives us --De-identified-- all over)
+2) Clean the text to remove all --De-identified-- instances, even the ones that are broken across
+    lines or stuck in the middle of words.
+3) Run the file through our parsing engine, which takes the following steps:
+    a) Break the file into sections (EVALUATION, HISTORY AND EXAM, etc.)
+    b) Tokenize each section using the Punkt tokenizer, which splits intelligently on punctuation.
+        http://nltk.googlecode.com/svn/trunk/doc/api/nltk.tokenize.punkt-module.html
+        (Note to Ian: This step is probably unnecessary since we don't need to save the semantics of
+        which things occur in the same sentence, but it's left in as an artifact of my debugging)
+    c) Tokenize each sentence into words with the Penn Treebank tokenizer
+        http://www.cis.upenn.edu/~treebank/tokenization.html
+    d) Tag each token with NLTK's default tagger -- based on the Penn Treebank.
+        However, suppliment the tagger with some rules that will aid with the parsing in the next step.
+        E.g. mg -> UNITS, daily -> FRB ("frequency adverb")
+    e) Use the tags to chunk each sentence.
+
+Difficulties:
+-- The data must be cleaned before running it through any type of parsing to remove --De-identified-- which
+     plagues the pdf text.
+-- Essentially, this makes impossible any kind of full-sentence parsing, since we don't have full sentences
+     let alone full sentences with user-identifiable information.
+-- Even the structured data has proved difficult to parse. The pdf2text command seems to take a list
+    like this:
+        Title one:      value one
+        Title two:      value two
+                        value three
+   And turn it into
+        Title one: Title two: value one value two value three
+
+Limitations:
+
+Here are some things that might come in handy while writing the paper:
+-- Parts of Speech tagged: http://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html
