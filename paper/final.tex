@@ -52,7 +52,7 @@ seizure type, type of seizure).
 \subsection{Significance}
 The national Institute of Medicine has specifically noted NLP as a catalyst for a new
 standard of medical care~\cite{friedman}. New functionality can be offered that is currently
-inpractical due to human limitations on data access speed and correlation.
+impractical due to human limitations on data access speed and correlation.
 
 We hope that our application of NLP to the domain of patient summaries will afford the
 web application users (medical professionals) with some never-before-seen insights.
@@ -85,7 +85,7 @@ help medical professionals draw conclusions by querying more-structured data.
 % OCR, pdftotext -layout
 When an epileptic patient is discharged from care, a Patient Discharge Summary is
 filled out, detailing the patient's history, symptoms, the tests administered, as
-well as diagnoses and recommended treatement. The majority of the documents are
+well as diagnoses and recommended treatment. The majority of the documents are
 presented in natural English language, while certain standard portions are in a
 more structured format, with well-defined attributes and values. Finally, some
 reports include a graphical representation of EEG data, which we excluded from analysis.
@@ -107,6 +107,14 @@ which splits cleanly and intelligently along sentence-delimiting punctuation.
 Third and finally, we tokenized each sentence into words.
 \subsection{Tagging}
 \subsection{Chunking}
+Once each token has been tagged, we used a custom-built grammar to parse and chunk
+the text. The majority of the productions dealt specifically with finding and parsing
+sentences about prescription regimens, episodic semiology, comorbidity, and epileptogenic
+zones. Some of this data was presented in structured list format, making the task
+slightly easier for some cases. Unfortunately, this is the phase during which our
+small dataset provided the greatest limitation. In the future, it will be necessary
+to use both a larger dataset and a more general grammar to glean further semantic
+data from the Discharge Summaries.
 \subsection{Entity Recognition}
 \section{Future Work}
 % augment our grammar with a more general grammar
