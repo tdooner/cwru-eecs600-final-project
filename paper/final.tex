@@ -84,7 +84,23 @@ help medical professionals draw conclusions by querying more-structured data.
 \subsection{Extraction}
 % OCR, pdftotext -layout
 \subsection{Cleanup}
-% also JSON formatting
+After extracting the text from the PDF documents, we remained with the complete raw text from the PDF files.
+Unfortunately, this raw text includes a lot of things which might mess up later Natural Language Processing --
+namely whitespace and the string \texttt{--De-identified--}, which replaces all personal data in our datasets.
+
+Unfortunately, due to the human imperfect nature of data cleanup, the \texttt{--De-identified--} text does not remain
+intact and is often spread amongst multiple words, split with spaces, and otherwise altered. Thus, after extracting
+the text, we run it through a custom-written Ruby script which has a good success rate at removing instances of 
+\texttt{--De-identified--} in its various forms.
+
+Another benefit we get by preprocessing the text is the ability to break the file into sections. For instance,
+all the major sections are titled with a line of all-captial letters. Using this, we can na{\"i}vely break the text
+into sections which can be run individually afterwards.
+
+To store these sections, the clean script outputs a JSON representation of a (key, value) object whose keys contain the
+section heading and the values contain lists of line contents under the given key. This is read in by the parsing
+script.
+
 \subsection{Tokenization}
 % sections, sentences, words
 \subsection{Tagging}
