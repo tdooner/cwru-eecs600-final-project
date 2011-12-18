@@ -1,5 +1,7 @@
 \documentclass{acm_proc_article-sp}
 \usepackage{cite}
+\usepackage{hyperref}
+\hyphenation{ep-i-lep-sy}
 
 \begin{document}
 \title{Semantic Analysis of Epilepsy Patient Discharge Records}
@@ -13,10 +15,13 @@
 }
 \maketitle
 \begin{abstract}
+We outline an application built using the Natural Language Toolkit\cite{nltk} which extracts meaningful information
+from epilepsy patient discharge records. This information, designed to have high precision and recall, can be further
+analyzed to determine trends across collections of records. Furthermore, we develop a simple web application frontend
+to allow easy access to the backend parsing script.
 \end{abstract}
 
 \section{Introduction}
-% From the proposal report, I guess?
 
 \section{Background}
 The broader field of applying Natural Language Processing (NLP) to Electronic Health Records
@@ -39,17 +44,26 @@ advantage of research contained in these referenced articles to produce a useful
 help medical professionals draw conclusions by querying more-structured data.
 
 \section{Project Goals}
-We hope to achieve the following goals with our system:
-\begin{itemize}
-	\item Allow records to be easily added to the database.
-	\item Allow users to search easily on basic criteria (date of birth, gender,
-substance use) as well as more semantically deep criteria (age at first seizure,
-seizure type, type of seizure).
-    \item Store records in a semantically useful format.
-	\item Employ a medical thesaurus so users can search for similar criteria easily.
-\end{itemize}
+Our project, as proposed, sought to accomplish the following goals.
+\subsection{One Grammar, Multiple Files}
+Using the same methodology, we want our technique to correctly determine attributes from a wide selection
+of patient discharge reports.
 
-\subsection{Significance}
+Due to the short nature of this project, we were unable to obtain more than nine usable discharge reports,
+so we made our goal to use these nine documents as a proof-of-concept for an extensible approach which
+could apply to more discharge reports if they become available.
+
+\subsection{Consistent Data Formatting}
+In the patient discharge summaries, data is represented in plain text. While there are methods of
+searching through plaintext, far more opportunities await if the data can be represented in a 
+structured, meaningful format.
+
+We seek to facilitate this improved data formatting by providing a consistent output format.
+\subsection{Easy Search}
+The formatted output should be easy to search. If you want to search for a captured attribute,
+you should be able to in the structured output.
+
+\section{Significance}
 The national Institute of Medicine has specifically noted NLP as a catalyst for a new
 standard of medical care~\cite{friedman}. New functionality can be offered that is currently
 impractical due to human limitations on data access speed and correlation.
@@ -60,7 +74,7 @@ Although our application will be operating on a small corpus of data with a smal
 of fields, in theory, semantically describing medicine records has wide-reaching 
 significance in medicine.
 
-\subsection{Prior Work}
+\section{Prior Work}
 The broader field of applying Natural Language Processing (NLP) to Electronic Health Records
 is well-discussed in academic journals. For example, a Clinical Data Architecture has been
 proposed~\cite{CDA} which promises to structure electronic health records. Unfortunately, however,
@@ -114,6 +128,7 @@ script.
 
 \subsection{Tokenization}
 % sections, sentences, words
+%                      words, words, words.
 The tokenization process was performed in three phases. The first phase was section
 recognition. Luckily, many sections in Patient Discharge Summaries have headers presented
 in large capital letters, which are easy to recognize. Furthermore, the majority of
