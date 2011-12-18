@@ -81,8 +81,19 @@ advantage of research contained in these referenced articles to produce a useful
 help medical professionals draw conclusions by querying more-structured data.
 
 \section{Methodology}
-\subsection{Extraction}
+\subsection{Text Extraction}
 % OCR, pdftotext -layout
+When an epileptic patient is discharged from care, a Patient Discharge Summary is
+filled out, detailing the patient's history, symptoms, the tests administered, as
+well as diagnoses and recommended treatement. The majority of the documents are
+presented in natural English language, while certain standard portions are in a
+more structured format, with well-defined attributes and values. Finally, some
+reports include a graphical representation of EEG data, which we excluded from analysis.
+The body of data is provided as PDF scans, without text data. This necessitated the use
+of Optical Character Recognition (OCR) to decipher the text from the PDF images.
+After performing OCR, we used the pdftotext utility with the layout-preserving option
+to extract the text data into program-readable files.
+
 \subsection{Cleanup}
 % also JSON formatting
 \subsection{Tokenization}
