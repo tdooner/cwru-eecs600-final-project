@@ -98,6 +98,13 @@ to extract the text data into program-readable files.
 % also JSON formatting
 \subsection{Tokenization}
 % sections, sentences, words
+The tokenization process was performed in three phases. The first phase was section
+recognition. Luckily, many sections in Patient Discharge Summaries have headers presented
+in large capital letters, which are easy to recognize. Furthermore, the majority of
+section titles are the same throughout all Summaries. The second phase was to partition
+each section into sentences. This was done using the punkt tokenizer from NLTK,
+which splits cleanly and intelligently along sentence-delimiting punctuation.
+Third and finally, we tokenized each sentence into words.
 \subsection{Tagging}
 \subsection{Chunking}
 \subsection{Entity Recognition}
