@@ -52,7 +52,7 @@ seizure type, type of seizure).
 \subsection{Significance}
 The national Institute of Medicine has specifically noted NLP as a catalyst for a new
 standard of medical care~\cite{friedman}. New functionality can be offered that is currently
-inpractical due to human limitations on data access speed and correlation.
+impractical due to human limitations on data access speed and correlation.
 
 We hope that our application of NLP to the domain of patient summaries will afford the
 web application users (medical professionals) with some never-before-seen insights.
@@ -81,8 +81,19 @@ advantage of research contained in these referenced articles to produce a useful
 help medical professionals draw conclusions by querying more-structured data.
 
 \section{Methodology}
-\subsection{Extraction}
+\subsection{Text Extraction}
 % OCR, pdftotext -layout
+When an epileptic patient is discharged from care, a Patient Discharge Summary is
+filled out, detailing the patient's history, symptoms, the tests administered, as
+well as diagnoses and recommended treatment. The majority of the documents are
+presented in natural English language, while certain standard portions are in a
+more structured format, with well-defined attributes and values. Finally, some
+reports include a graphical representation of EEG data, which we excluded from analysis.
+The body of data is provided as PDF scans, without text data. This necessitated the use
+of Optical Character Recognition (OCR) to decipher the text from the PDF images.
+After performing OCR, we used the pdftotext utility with the layout-preserving option
+to extract the text data into program-readable files.
+
 \subsection{Cleanup}
 After extracting the text from the PDF documents, we remained with the complete raw text from the PDF files.
 Unfortunately, this raw text includes a lot of things which might mess up later Natural Language Processing --
@@ -103,8 +114,23 @@ script.
 
 \subsection{Tokenization}
 % sections, sentences, words
+The tokenization process was performed in three phases. The first phase was section
+recognition. Luckily, many sections in Patient Discharge Summaries have headers presented
+in large capital letters, which are easy to recognize. Furthermore, the majority of
+section titles are the same throughout all Summaries. The second phase was to partition
+each section into sentences. This was done using the punkt tokenizer from NLTK,
+which splits cleanly and intelligently along sentence-delimiting punctuation.
+Third and finally, we tokenized each sentence into words.
 \subsection{Tagging}
 \subsection{Chunking}
+Once each token has been tagged, we used a custom-built grammar to parse and chunk
+the text. The majority of the productions dealt specifically with finding and parsing
+sentences about prescription regimens, episodic semiology, comorbidity, and epileptogenic
+zones. Some of this data was presented in structured list format, making the task
+slightly easier for some cases. Unfortunately, this is the phase during which our
+small dataset provided the greatest limitation. In the future, it will be necessary
+to use both a larger dataset and a more general grammar to glean further semantic
+data from the Discharge Summaries.
 \subsection{Entity Recognition}
 \section{Future Work}
 % augment our grammar with a more general grammar
