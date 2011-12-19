@@ -22,6 +22,21 @@ to allow easy access to the backend parsing script.
 \end{abstract}
 
 \section{Introduction}
+When an epileptic patient is discharged from care, a Patient Discharge Summary is
+filled out, detailing the patient's history, symptoms, the tests administered, as
+well as diagnoses and recommended treatment. The majority of the documents are
+presented in natural English language, while certain standard portions are in a
+more structured format, with well-defined attributes and values.
+
+Patient Discharge Summaries can provide valuable insight to future doctors. If reading them one-by-one,
+doctors will extract manually the useful information from a single report. However, if the doctor
+wishes to obtain more-general broad statistics, he or she would have to manually collect the data by doing
+lots of reading. This is not cost-effective, and it sounds like one of those problems that computers should
+be able to fix!
+
+If the useful information from the Patient Discharge Summaries could be curated automatically using
+Natural Language Processing techniques, then a wide variety of search applications would be
+possible -- allowing the doctors and medical staff more time to tend patients instead of papers.
 
 \section{Background}
 The broader field of applying Natural Language Processing (NLP) to Electronic Health Records
@@ -96,17 +111,17 @@ help medical professionals draw conclusions by querying more-structured data.
 
 \section{Methodology}
 \subsection{Text Extraction}
-% OCR, pdftotext -layout
-When an epileptic patient is discharged from care, a Patient Discharge Summary is
-filled out, detailing the patient's history, symptoms, the tests administered, as
-well as diagnoses and recommended treatment. The majority of the documents are
-presented in natural English language, while certain standard portions are in a
-more structured format, with well-defined attributes and values. Finally, some
-reports include a graphical representation of EEG data, which we excluded from analysis.
-The body of data is provided as PDF scans, without text data. This necessitated the use
-of Optical Character Recognition (OCR) to decipher the text from the PDF images.
-After performing OCR, we used the pdftotext utility with the layout-preserving option
-to extract the text data into program-readable files.
+Since the input files to our technique are de-identified PDF documents with plain English text, the first step
+in the process is to convert these documents into something more machine-readable. For a third of our documents,
+the PDF documents contained text data that could be extracted. The remainder of the PDF documents included only
+scanned images of pieces of paper and contained no text data. This necessitated the use
+of Optical Character Recognition (OCR) to decipher the text from the PDF images. We used Adobe Acrobat manually
+to perform the OCR on the PDF documents with non-machine-readable text.
+After performing OCR, we had text data for all of our docomunts. We then used the \texttt{pdftotext} utility 
+from the XPDF suite \cite{xpdf} on all documents to extract the text data into program-readable files.
+
+We found that this works best by passing \texttt{pdftotext} the \texttt{-layout} flag, which preserves as much
+of the layout from the original PDF as possible.
 
 \subsection{Cleanup}
 After extracting the text from the PDF documents, we remained with the complete raw text from the PDF files.
