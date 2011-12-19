@@ -136,21 +136,58 @@ section titles are the same throughout all Summaries. The second phase was to pa
 each section into sentences. This was done using the punkt tokenizer from NLTK,
 which splits cleanly and intelligently along sentence-delimiting punctuation.
 Third and finally, we tokenized each sentence into words.
+
 \subsection{Tagging}
+With the list of tokens (words) from the sentences, the difficulty becomes making sense of the 
+document's meaning. Towards this end, we use a tagger to assign parts of speech to each
+token. For instance, a basic part-of-speech tagger would assign tags like \texttt{NNP} to a
+singular proper noun and \texttt{RB} to an adverb. Using these tags, it is then possible to search
+for certain patterns and extract meaning.
+
+\subsubsection{Default Tagger}
+In our project we use the NLTK built-in tagger from the Penn Treebank\cite{treebank}. Trained on a
+large corpus of text, the tagger classifies every token into one of thirty-six possible parts of speech. 
+Anecdotally, the tagger performs well. However, since some words are mistaken, and we wish to extract 
+more meaning than by simply analyzing the English phrases, we need to customize the tagger to provide more
+granularity.
+
+\subsubsection{Medicine Tagger}
+To this end, we used two additional chunkers to be used with the NLTK, a custom \textit{MedicineTagger} and
+a rule-based \textit{RegexpTagger}. The former tagger searches for an key in a hash table and returns the tag
+\texttt{DRUG} when the key is in the hash table. When inputted with a list of FDA-approved medicines, the
+\textit{MedicineTagger} will create the hash table and output the desired \texttt{DRUG} tag when a given token
+matches a drug name on the FDA's list.
+
+\subsubsection{Regular Expression Tagger}
+When the \textit{MedicineTagger} is unable to tag an item, the process falls back upon the secondary tagger, the
+\textit{RegexpTagger} -- a regular-expression based tagger. Using only 20 custom rules, we were able to add enough
+additional semantic meaning to tokens to facilitate data extraction in later steps.
+
+If the token does not match a medicine with the \textit{MedicineTagger} and doesn't match any rule in the
+\textit{RegexpTagger}, then the token falls back to the Default Penn Treebank tagger. In this way, every token will
+receive the most semantically meaningful tag possible.
+
 \subsection{Chunking}
 Once each token has been tagged, we used a custom-built grammar to parse and chunk
-the text. The majority of the productions dealt specifically with finding and parsing
+the text. It is useful to chunk tagged tokens, for instance, to generate a meaningful chunk of
+semantic data. To chunk tokens, we iterate through the list of tagged tokens and apply a series
+of custom regular-expression productions using NLTK's \textit{RegexpParser}. Overall, we wrote
+twenty-four productions.
+
+The majority of productions dealt specifically with finding and parsing
 sentences about prescription regimens, episodic semiology, comorbidity, and epileptogenic
-zones. Some of this data was presented in structured list format, making the task
-slightly easier for some cases. Unfortunately, this is the phase during which our
-small dataset provided the greatest limitation. In the future, it will be necessary
+zones. Although some of this data was presented in structured list format, extracting it using
+chunking and parsing proved non-trivial. Compounding on this difficulty, our 
+small dataset provided a limitation in creating an approach which scales to unseen documents.
+
+Although we have tested our approach (with much success) on our nine-document dataset and have found it
+to be flexible, in the future it will be necessary
 to use both a larger dataset and a more general grammar to glean further semantic
 data from the Discharge Summaries.
 \subsection{Entity Recognition}
 \section{Future Work}
 % augment our grammar with a more general grammar
 % study a larger dataset
-\section{References}
 \bibliography{citations}{}
 \bibliographystyle{plain}
 \end{document}
