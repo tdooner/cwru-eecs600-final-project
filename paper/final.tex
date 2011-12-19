@@ -150,6 +150,29 @@ data from the Discharge Summaries.
 \section{Future Work}
 % augment our grammar with a more general grammar
 % study a larger dataset
+As previously mentioned, we were provided with a very limited number of actual Discharge
+Summaries, which were further constricted by the De-Identification. To be specific,
+our data domain consisted of nine (9) reports. The one advantage to this is that we
+had in our hands a very manageable amount of data from which to derive our domain-
+specific grammar. However, a dataset like this did not lend itself to testing. In
+the future, we hope to acquire a much larger number of Patient Discharge Summaries.
+Given those, we can do one of two things. The first option is to generalize our grammar
+and perhaps augment it with some more general English productions. The second option,
+given a sufficiently large and diverse dataset, is to implement a stochastic grammar
+that can adjust to more data as it arrives.
+
+Furthermore, it would be very useful to have data that is \emph{anonymized} rather
+than simply de-identified, with names and other identifying information replaced
+with arbitrary and non-private but still relevant information, rather than simply
+censored with gray rectangles and poorly formatted, irrelevant words. This will allow
+us to account for the tokens and productions that appear in those areas, rather than
+having to pretend they don't exist.
+
+In the future, we hope to be able to provide healthcare professionals with up-to-date,
+useful, and semantically-rich information on patients with epilepsy. With enough
+existing data, and the ability to adapt to additional data, we will be able to develop
+a system that can point researchers in the field in the right direction to find patients
+relevant to the needs of their research.
 \section{References}
 \bibliography{citations}{}
 \bibliographystyle{plain}
