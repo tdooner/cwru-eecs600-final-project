@@ -200,6 +200,43 @@ to be flexible, in the future it will be necessary
 to use both a larger dataset and a more general grammar to glean further semantic
 data from the Discharge Summaries.
 \subsection{Entity Recognition}
+After the tokens have been chunked into as large a semantic sentence as is meaningful, then cames
+the challenge of determining which sentences are useful and printing those entities. We hard-coded
+some basic rules toward this end -- such as
+\begin{itemize}
+\item Don't print the sentence if the chunk is titled \textit{Future Regimen}.
+\item If the chunk is a list of prescriptions, print each prescription individually.
+\item If there is a frequency sentence in a non-history section, don't print it.
+\end{itemize}
+
+With these optimizations, we have found that it is possible to output useful data with relatively
+high precision and recall.
+\section{Results}
+Currently, our script detects the following properties from a discharge summary:
+\textbf{Epileptogenic Zone}, \textbf{Comorbidities}, \textbf{Medications}, \textbf{Frequency}, and
+\textbf{Seizure Semiology}. Using all instances of these properties as the ``Total Instances'', manual inspection 
+of the PDF documents in our dataset yields the following results:
+
+\begin{tabular}{c c c c}
+ \textbf{Filename} & \textbf{Total Instances} & \textbf{Precision} & \textbf{Recall} \\
+ \hline
+ P001.pdf & 8 & 1.0 & 0.375 \\ 
+ P002.pdf & 4 & 0.75 & 0.75 \\
+ P003.pdf & 15 & 0.93 & 0.93 \\
+ P004.pdf & 11 & 0.27 & 0.27 \\
+ P005.pdf & 2 & 1.0 & 1.0 \\
+ P006.pdf & 5 & 0.4 & 0.4 \\
+ P007.pdf & 13 & 0.9 & 1.0 \\
+ P008.pdf & 12 & 1.0 & 0.33 \\
+ P009.pdf & 19 & 1.0 & 0.68 \\
+ \hline
+ \textbf{Total} & 89 & 0.81 & 0.64
+\end{tabular}
+
+We believe our approach performs formidably on the wide range of dramatically differently styled files
+we used as our corpus. We believe that further improvements can be made through various techniques, but due to
+time constraints, we were unable to improve our technique beyond this.
+
 \section{Future Work}
 % augment our grammar with a more general grammar
 % study a larger dataset
@@ -226,7 +263,6 @@ useful, and semantically-rich information on patients with epilepsy. With enough
 existing data, and the ability to adapt to additional data, we will be able to develop
 a system that can point researchers in the field in the right direction to find patients
 relevant to the needs of their research.
-\section{References}
 \bibliography{citations}{}
 \bibliographystyle{plain}
 \end{document}
